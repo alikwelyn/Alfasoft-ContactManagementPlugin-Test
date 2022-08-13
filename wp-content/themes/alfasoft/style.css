@@ -1,0 +1,15 @@
+/*
+ Theme Name:   Contact Management Front Page Listing
+ Theme URI:    "https://www.alfasoft.pt/"
+ Description:  Contact Management Front Page Listing
+ Author:       Alik Evangelista
+ Version:      1.0.0
+*/
+
+body {
+    font-size: 18px;
+    padding: 20;
+    margin: 20 auto !important;
+}
+
+td:last-child {text-align:center;}

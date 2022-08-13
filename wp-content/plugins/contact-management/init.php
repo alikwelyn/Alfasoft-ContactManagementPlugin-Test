@@ -31,15 +31,18 @@ if (!function_exists("contact_management_settings")) {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 
-		// table: contact_management_person
-		$table_contact_management_person = $wpdb->prefix . 'contact_management_person';
+		// table: contact_management_persons
+		$table_contact_management_persons = $wpdb->prefix . 'contact_management_persons';
 
-		$sql_contact_management_person = "CREATE TABLE IF NOT EXISTS $table_contact_management_person (
+		$sql_contact_management_persons = "CREATE TABLE IF NOT EXISTS $table_contact_management_persons (
 		`id` INT(11) NOT NULL AUTO_INCREMENT,
 		`name` VARCHAR(250) DEFAULT NULL,
 		`email` VARCHAR(100) NOT NULL DEFAULT '',
+		`contact_id` INT(11) DEFAULT NULL,
 		`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		UNIQUE KEY id (id) ) $charset_collate;";
+
+		//ALTER TABLE $table_contact_management_persons ADD FOREIGN KEY (contact_id) REFERENCES $table_contact_management_contacts(person_id),
 
 		// table: contact_management_contacts
 		$table_contact_management_contacts = $wpdb->prefix . 'contact_management_contacts';
@@ -48,11 +51,12 @@ if (!function_exists("contact_management_settings")) {
 		`id` INT(11) NOT NULL AUTO_INCREMENT,
 		`countryCode` TEXT DEFAULT '' NOT NULL,
 		`number` VARCHAR(20) DEFAULT NULL,
+		`person_id` INT(11) NOT NULL,
 		`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		UNIQUE KEY id (id) ) $charset_collate;";
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta($sql_contact_management_person);
+		dbDelta($sql_contact_management_persons);
 		dbDelta($sql_contact_management_contacts);
 	}
 
@@ -61,3 +65,10 @@ if (!function_exists("contact_management_settings")) {
 if (!class_exists('WP_List_Table')) {
 	require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
+
+/*
+ * Include Files 
+ */
+
+include 'admin/persons.php';
+include 'admin/contacts.php';
